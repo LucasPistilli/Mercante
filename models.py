@@ -65,40 +65,6 @@ class Enderecos(Base):
         self.cidade = cidade
         self.estado = estado
 
-#Tabela Pedidos
-class Pedidos(Base):
-     __tablename__ = "Orders"
-
-    id_pedidos = Column('id', Integer, primary_key=True , autoincrement=True)
-    usuario_id = Column('usuario_id', Integer , ForeignKey(Usuario.id))
-    loja_id = Column('loja_id', Integer , ForeignKey(Loja.id))
-    status_pedido = Column('status_pedido', String) #pedentente, pago, enviado, entregue, cancelado
-    valor_total = Column('valor_total', Float) #
-    frete = Column('Valor_frete', Float) # criar funcao para calcular o valor do frete
-    criado_em = Column('criado_em', DateTime, server_default=func.now())
-
-    def __init__(self,id_pedidos ,usuario_id , loja_id , status_pedido , criado_em):
-        self.id_pedidos = id_pedidos
-        self.usuario_id = usuario_id
-        self.loja_id = loja_id
-        self.criado_em = criado_em
-        self.status_pedido = status_pedido #criar funcao para atualizar o status do pedido
-        self.valor_total = valor_total #criar funcao para calcular o valor total do pedido
-
-#Tabela itens_pedidos
-class itens_pedidos(Base):
-    __tablename__ = "Order_items"
-
-    id = Column ('id', Integer, primary_key=True , autoincrement=True)
-    id_pedido = Column ('id_pedido', Integer , ForeignKey(Pedidos.id))
-    quantidade = Column ('quantidade', Integer)
-    preco_unitario = Column ('preco_unitario', Float)
-
-    def __init__(self, id_pedido , quantidade , preco_unitario):
-        self.id_pedido = id_pedido
-        self.quantidade = quantidade
-        self.preco_unitario = preco_unitario
-
 #Tabela produtos
 class Produtos(Base):
     __tablename__ = "Products"
@@ -116,3 +82,56 @@ def __init__(self, loja_id , nome , descricao , quantidade_estoque, categoria):
     self.descricao = descricao
     self.quantidade_estoque = quantidade_estoque
     self.categoria = categoria       
+
+
+#Tabela Pedidos
+class Pedidos(Base):
+    __tablename__ = "Orders"
+
+    id = Column('id', Integer, primary_key=True , autoincrement=True)
+    usuario_id = Column('usuario_id', Integer , ForeignKey(Usuario.id))
+    loja_id = Column('loja_id', Integer , ForeignKey(Loja.id))
+    status_pedido = Column('status_pedido', String) #pedentente, pago, enviado, entregue, cancelado
+    valor_total = Column('valor_total', Float) #
+    frete = Column('Valor_frete', Float) # criar funcao para calcular o valor do frete
+    criado_em = Column('criado_em', DateTime, server_default=func.now())
+
+    def __init__(self,usuario_id , loja_id , status_pedido , criado_em):
+        self.usuario_id = usuario_id
+        self.loja_id = loja_id
+        self.criado_em = criado_em
+        self.status_pedido = status_pedido #criar funcao para atualizar o status do pedido
+        self.valor_total = valor_total #criar funcao para calcular o valor total do pedido
+
+#Tabela itens_pedidos
+class Itens_pedidos(Base):
+    __tablename__ = "Order_items"
+
+    id = Column ('id', Integer, primary_key=True , autoincrement=True)
+    id_pedido = Column ('id_pedido', Integer , ForeignKey(Pedidos.id))
+    produto_id = Column ('produto_id', Integer , ForeignKey(Produtos.id))
+    quantidade = Column ('quantidade', Integer)
+    preco_unitario = Column ('preco_unitario', Float)
+
+    def __init__(self, id_pedido ,produto_id, quantidade , preco_unitario):
+        self.id_pedido = id_pedido
+        self.produto_id = produto_id
+        self.quantidade = quantidade
+        self.preco_unitario = preco_unitario
+
+
+#Tabela Avaliações 
+class Avaliacoes(Base):
+    __tablename__ = "Reviews"
+
+    id = Column('id', Integer, primary_key=True, autoincrement=True)
+    pedido_id = Column('pedido_id', Integer, ForeignKey(Pedidos.id))
+    comprador_id = Column('comprador_id', Integer,)
+    nota = Column('nota', Integer, nullable=False) # 1 a 5, não pode ter número quebrado, criar a função
+    comentario = Column('comentario', String)
+
+def __init__(self, pedido_id , comprador_id, nota , comentario):
+    self.pedido_id = pedido_id
+    self.comprador_id = comprador_id
+    self.nota = nota
+    self.comentario = comentario
