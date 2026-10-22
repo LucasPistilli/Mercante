@@ -4,12 +4,12 @@ from sqlalchemy.orm import Session
 import requests
 from models import db
 from models import Enderecos
-from database import get_db
+from dependes import pegar_sessao
 
 address_router = APIRouter(prefix="/enderecos", tags=["Endereços"])
 
 def Buscar_dados_cep(cep : str):
-    cep_limpo = cep.replace("-" , "".replace(".", ""))
+    cep_limpo = cep.replace("-" , "").replace(".", "")
     resposta = requests.get(f"https://viacep.com.br/ws/{cep_limpo}/json/")
 
     if resposta.status_code == 200:
@@ -24,7 +24,8 @@ class EnderecoEntrada(BaseModel):
     numero : int
 
 @address_router.post("/")
-async def adicionar_endereco(entrada: EnderecoEntrada, db: Session = Depends(get_db)):
+async def adicionar_endereco(entrada: EnderecoEntrada, db: Session = Depends(pegar_sessao)):
+    
     dados_viacep = Buscar_dados_cep(entrada.cep)
 
     if not dados_viacep:

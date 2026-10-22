@@ -9,3 +9,9 @@ class UsuarioSchema(BaseModel):
 
 class Config:
     from_attributes = True
+
+
+class LojaSchema(BaseModel):
+    dono_id: int
+    nome_loja: str
+    descricao: str

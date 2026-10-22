@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from dependes import pegar_sessao
 
 orders_router = APIRouter(prefix="/orders", tags=["orders"])
 

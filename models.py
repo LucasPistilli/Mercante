@@ -19,14 +19,6 @@ class Usuario(Base):
     cpf_cnpj = Column('cpf_cnpj', String, nullable=False, unique=True)
     criado_em = Column('criado_em', DateTime, server_default=func.now())#Esse server_default=func.now fala pro banco que ele irá pegar a data e hora sempre que uma nova linha for inserida
 
-
-    def __init__(self, nome, email , senha , cpf_cnpj , criado_em):
-        self.nome = nome
-        self.email = email
-        self.senha = senha 
-        self.cpf_cnpj = cpf_cnpj
-        self.criado_em = criado_em
-
 #Tabela loja
 
 class Loja(Base):
@@ -38,11 +30,6 @@ class Loja(Base):
     descricao = Column('descricao', String)
     status_ativa = Column('status_ativa', Boolean , default=True)
 
-    def __init__(self, dono_id , nome_loja , descricao, status_ativa=True):
-        self.dono_id = dono_id
-        self.nome_loja = nome_loja
-        self.descricao = descricao
-        self.status_ativa = status_ativa
 
 #Tabela endereços
 
