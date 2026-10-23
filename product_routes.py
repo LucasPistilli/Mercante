@@ -28,7 +28,7 @@ async def cadastrar_produto(
     if not resultado["sucesso"]:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
-            detail=resultado["Produto não cadastrado com sucesso"]
+            detail=resultado["mensagem"]
         )
 
     return {

@@ -85,7 +85,7 @@ class Pedidos(Base):
     frete = Column('Valor_frete', Float) # criar funcao para calcular o valor do frete
     criado_em = Column('criado_em', DateTime, server_default=func.now())
 
-    def __init__(self,usuario_id , loja_id , status_pedido , criado_em):
+    def __init__(self,usuario_id , loja_id , status_pedido , criado_em, valor_total):
         self.usuario_id = usuario_id
         self.loja_id = loja_id
         self.criado_em = criado_em
