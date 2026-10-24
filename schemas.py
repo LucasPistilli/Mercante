@@ -20,6 +20,16 @@ class LojaSchema(BaseModel):
 class ProdutoSchema(BaseModel):
     nome: str
     descricao: str
-    quantidade_estoque: float
+    quantidade_estoque: int
     categoria: str
     valor_unitario: float
+
+class ProdutoResponseSchema(BaseModel):
+    nome: str
+    descricao: str
+    quantidade_estoque: int
+    categoria: str
+    valor_unitario: float
+
+    class Config:
+        orm_mode = True
