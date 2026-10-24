@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 app = FastAPI()
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-# uvicorn main:app --reload 
+# python -m uvicorn main:app --reload 
 
 from auth_routes import auth_router
 from address_routes import address_router

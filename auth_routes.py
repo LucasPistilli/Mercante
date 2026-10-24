@@ -26,7 +26,7 @@ async def cadastro(usuario_schema : UsuarioSchema, session: Annotated[Session,De
 
 @auth_router.post("/login/")
 async def login(email : str , senha: str, Session = Depends(pegar_sessao)):
-    usuario = session.query(Usuario).filter(Usuario.email==email).first()
+    usuario = Session.query(Usuario).filter(Usuario.email==email).first()
     if usuario:
         return {}
         

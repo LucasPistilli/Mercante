@@ -1,5 +1,6 @@
 from pydantic import BaseModel , EmailStr
 
+
 class UsuarioSchema(BaseModel):
 
     nome: str
@@ -15,3 +16,20 @@ class LojaSchema(BaseModel):
     dono_id: int
     nome_loja: str
     descricao: str
+
+class ProdutoSchema(BaseModel):
+    nome: str
+    descricao: str
+    quantidade_estoque: int
+    categoria: str
+    valor_unitario: float
+
+class ProdutoResponseSchema(BaseModel):
+    nome: str
+    descricao: str
+    quantidade_estoque: int
+    categoria: str
+    valor_unitario: float
+
+    class Config:
+        orm_mode = True

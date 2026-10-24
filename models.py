@@ -56,19 +56,21 @@ class Enderecos(Base):
 class Produtos(Base):
     __tablename__ = "Products"
 
-    id = Column('id', Integer , primary_key=True , autoincrement=True)
-    loja_id = Column('loja_id', Integer , ForeignKey(Loja.id))
-    nome = Column('nome', String)
-    descricao = Column('descricao', String)
-    quantidade_estoque = Column('quantidade_estoque' ,Float)
-    categoria = Column('categoria', String) 
-    
-def __init__(self, loja_id , nome , descricao , quantidade_estoque, categoria):
-    self.loja_id = loja_id
-    self.nome = nome
-    self.descricao = descricao
-    self.quantidade_estoque = quantidade_estoque
-    self.categoria = categoria       
+    id: int = Column('id', Integer, primary_key=True, autoincrement=True)
+    loja_id: int = Column('loja_id', Integer, ForeignKey('Store.id'))
+    nome: str = Column('nome', String)
+    descricao: str = Column('descricao', String)
+    quantidade_estoque: float = Column('quantidade_estoque', Float)
+    categoria: str = Column('categoria', String)
+    valor_unitario: float = Column('valor_unitario', Float) 
+
+    def __init__(self, loja_id: int, nome: str, descricao: str, quantidade_estoque: float, categoria: str, valor_unitario: float):
+        self.loja_id = loja_id
+        self.nome = nome
+        self.descricao = descricao
+        self.quantidade_estoque = quantidade_estoque
+        self.categoria = categoria
+        self.valor_unitario = valor_unitario    
 
 
 #Tabela Pedidos
@@ -79,11 +81,11 @@ class Pedidos(Base):
     usuario_id = Column('usuario_id', Integer , ForeignKey(Usuario.id))
     loja_id = Column('loja_id', Integer , ForeignKey(Loja.id))
     status_pedido = Column('status_pedido', String) #pedentente, pago, enviado, entregue, cancelado
-    valor_total = Column('valor_total', Float) #
+    valor_total = Column('valor_total', Float) 
     frete = Column('Valor_frete', Float) # criar funcao para calcular o valor do frete
     criado_em = Column('criado_em', DateTime, server_default=func.now())
 
-    def __init__(self,usuario_id , loja_id , status_pedido , criado_em):
+    def __init__(self,usuario_id , loja_id , status_pedido , criado_em, valor_total):
         self.usuario_id = usuario_id
         self.loja_id = loja_id
         self.criado_em = criado_em
