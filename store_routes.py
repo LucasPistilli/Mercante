@@ -42,16 +42,3 @@ async def atualizar_loja():
     return {"Loja atualizada com sucesso"}
 
 
-
-# async def criar_conta(nome:str, email:str, senha:str, session = Depends(pegar_sessao)):
-
-#     usuario = session.query(Usuario).filter(Usuario.email == email).first()
-
-#     if usuario:
-#         return {"Mensagem" : "Ja existe um usuário com este e-mail"}
-#     else:
-#         senha_cripto = decrypt_context.hash(senha)
-#         novo_usuario = Usuario(nome, email, senha_cripto, usuario)
-#         session.add(novo_usuario)
-#         session.commit()
-#         return {"Mensagem" : "Usuário cadastrado com Sucesso"}

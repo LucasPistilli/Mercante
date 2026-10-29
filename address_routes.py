@@ -1,10 +1,13 @@
+from typing import Annotated
+
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 import requests
-from models import db
-from models import Enderecos
+from starlette import status
+from models import Enderecos , Usuario
 from dependes import pegar_sessao
+from schemas import UsuarioSchema
 
 address_router = APIRouter(prefix="/enderecos", tags=["Endereços"])
 
@@ -49,11 +52,23 @@ async def adicionar_endereco(entrada: EnderecoEntrada, db: Session = Depends(peg
 
 
 @address_router.get("/enderecos/")
-async def listar_enderecos():
-    return {"Endereços retornados com sucesso"}
+async def listar_enderecos(session: Annotated[Session,Depends(pegar_sessao)]):
+    listar = session.query(Enderecos).filter(Usuario.id == Enderecos.usuario_id).all()
+    return listar
 
 @address_router.delete("/enderecos/{endereco_id}/")
-async def remover_endereco():
+async def remover_endereco(endereco_id: int , usuario_id : int,  session: Annotated[Session, Depends(pegar_sessao)]):
+    deletar = session.query(Enderecos).filter(Enderecos.usuario_id == usuario_id, Enderecos.id == endereco_id).first()
+    if not deletar:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Endereço não encontrado ou não pertence ao Usuario"
+            )
+    session.delete(deletar)
+    session.commit()
     return {"Endereço deletado com sucesso"}
+    
+
+    
 
 
